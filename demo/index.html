@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<title>alveolus</title>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="http://openlayers.org/api/OpenLayers.js"></script>
+		<script src="../src/alveolus.js"></script>
+		<style>
+		body, *{
+			margin:0;
+			padding:0;
+		}
+		#carte{
+			position:absolute;
+			top:0;
+			bottom:0;
+			width:100%;
+		}
+		</style>
+	</head>
+	<body>
+		<div id="carte"></div>
+		<script>
+		// Map
+		var cartographie = new OpenLayers.Map('carte',{controls:[new OpenLayers.Control.Navigation({dragPanOptions:{enableKinetic:true}})]});
+		cartographie.addLayer(new OpenLayers.Layer.OSM("Stamen Toner", ["http://a.tile.stamen.com/toner/${z}/${x}/${y}.jpg","http://b.tile.stamen.com/toner/${z}/${x}/${y}.jpg","http://c.tile.stamen.com/toner/${z}/${x}/${y}.jpg"], {opacity:0.1, attribution:""}));
+		var proj3857 = new OpenLayers.Projection('EPSG:3857');
+		// Layer "Alvéoles"
+		var style_alveoles = new OpenLayers.Style({strokeWidth:0.5, strokeColor:'orange', fillColor:'orange', fillOpacity:0.1});
+		var couche_alveoles = new OpenLayers.Layer.Vector('Alvéoles',{
+			projection:proj3857,
+			styleMap:new OpenLayers.StyleMap({'default':style_alveoles})
+		});
+		cartographie.addLayer(couche_alveoles);
+		// Layer "Points"
+		var style_points  = new OpenLayers.Style({pointRadius:3, fillColor:'brown', fillOpacity:1, strokeColor:'white', strokeWidth:1});
+		var couche_points = new OpenLayers.Layer.Vector('Points',{
+			projection:proj3857,
+			styleMap:new OpenLayers.StyleMap({'default':style_points}),
+			strategies:[new OpenLayers.Strategy.Fixed()],
+			protocol:new OpenLayers.Protocol.HTTP({url:'demo.geojson',format:new OpenLayers.Format.GeoJSON()})
+		});
+		cartographie.addLayer(couche_points);
+		// Utilisation de la fonction alveolus()
+		couche_points.events.register('loadend', couche_points, function(){
+			alveolus(couche_points, couche_alveoles, 800, false);
+		});
+		</script>
+	</body>
+</html>
