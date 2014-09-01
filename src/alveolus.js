@@ -42,6 +42,12 @@ function alveolus(couchePoints, coucheAlveoles, radius, doCount)
 		// Si des features (entités) ont été créées
 		if(alveoles.length > 0)
 		{
+			// Si la couche n'existe pas
+			if(coucheAlveoles == null)
+			{
+				// On la crée
+				
+			}
 			// On vide le layer (couche) de toutes ses features (entités)
 			coucheAlveoles.destroyFeatures();
 			// On peuple le layer (couche) avec les features (entités) créées
