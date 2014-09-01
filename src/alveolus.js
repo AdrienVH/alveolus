@@ -1,4 +1,4 @@
-function alveolus(couchePoints, coucheAlveoles, radius, doCount)
+function alveolus(couchePoints, coucheAlveoles, radius)
 {
 	// BBox de la couche de points
 	var extent = couche_points.getDataExtent();
