@@ -42,22 +42,15 @@ function alveolus(couchePoints, coucheAlveoles, radius)
 		// Si des features (entités) ont été créées
 		if(alveoles.length > 0)
 		{
-			// Si la couche n'existe pas
-			if(coucheAlveoles == null)
-			{
-				// On la crée
-				
-			}
 			// On vide le layer (couche) de toutes ses features (entités)
 			coucheAlveoles.destroyFeatures();
 			// On peuple le layer (couche) avec les features (entités) créées
 			coucheAlveoles.addFeatures(alveoles);
 			coucheAlveoles.redraw();
-			cartographie.zoomToExtent(coucheAlveoles.getDataExtent());
 			// On retourne le nombre d'alvéoles créées, pour information
 			return alveoles.length;
 		}
 	}
 	// En cas d'erreur
-		return false;
+	return false;
 }
